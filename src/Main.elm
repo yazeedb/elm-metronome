@@ -1,5 +1,6 @@
 module Main exposing (main)
 
+import BpmToTempo exposing (bpmToTempo)
 import Browser
 import Html exposing (..)
 import Html.Attributes as A exposing (..)
@@ -19,13 +20,17 @@ type alias Model =
     { bpm : Int
     , minBpm : Int
     , maxBpm : Int
-    , alsoKnownAs : String
+    , tempo : String
     }
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( Model 60 20 260 "Largo - Lento - Adagio"
+    let
+        initialBpm =
+            60
+    in
+    ( Model initialBpm 20 260 (bpmToTempo initialBpm)
     , Cmd.none
     )
 
@@ -44,21 +49,37 @@ update msg model =
     in
     case msg of
         Increment ->
+            let
+                newBpm =
+                    clampBpm (model.bpm + 1)
+            in
             ( { model
-                | bpm = clampBpm (model.bpm + 1)
+                | bpm = newBpm
+                , tempo = bpmToTempo newBpm
               }
             , Cmd.none
             )
 
         Decrement ->
-            ( { model | bpm = clampBpm (model.bpm - 1) }, Cmd.none )
+            let
+                newBpm =
+                    clampBpm (model.bpm - 1)
+            in
+            ( { model
+                | bpm = newBpm
+                , tempo = bpmToTempo newBpm
+              }
+            , Cmd.none
+            )
 
         SetBpm value ->
+            let
+                newBpm =
+                    Maybe.withDefault model.bpm (String.toInt value)
+            in
             ( { model
-                | bpm =
-                    Maybe.withDefault
-                        model.bpm
-                        (String.toInt value)
+                | bpm = newBpm
+                , tempo = bpmToTempo newBpm
               }
             , Cmd.none
             )
@@ -75,7 +96,7 @@ view model =
             [ text (String.fromInt model.bpm)
             , span [] [ text "BPM" ]
             ]
-        , h4 [] [ text model.alsoKnownAs ]
+        , h4 [] [ text model.tempo ]
         , div [ class "controls" ]
             [ div
                 [ class "slider-container" ]
