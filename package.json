@@ -3,6 +3,7 @@
     "start": "parcel -p 8000 watch index.html"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.11.2",
     "elm-hot": "^1.1.2",
     "node-elm-compiler": "^5.0.4",
     "parcel-bundler": "^1.12.3",
