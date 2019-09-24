@@ -1,0 +1,6 @@
+screenshot.png
+node_modules
+elm-stuff
+.cache
+dist
+yarn-error.log
