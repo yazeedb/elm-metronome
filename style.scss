@@ -1,0 +1,23 @@
+$dark-bg: #282c35;
+$color-primary: #fff;
+$color-secondary: rgba(255, 255, 255, 0.9);
+
+body {
+  background-color: $dark-bg;
+  color: $color-primary;
+  font-family: Avenir, Helvetica, sans-serif;
+  text-align: center;
+}
+
+.metronome {
+  margin-top: 30px;
+}
+
+h1 {
+  font-size: 120px;
+
+  span {
+    font-size: 30px;
+    margin-left: 5px;
+  }
+}

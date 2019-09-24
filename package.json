@@ -1,10 +1,11 @@
 {
   "scripts": {
-    "start": "parcel index.html"
+    "start": "parcel -p 8000 watch index.html"
   },
   "devDependencies": {
-    "parcel-bundler": "^1.12.3",
     "elm-hot": "^1.1.2",
-    "node-elm-compiler": "^5.0.4"
+    "node-elm-compiler": "^5.0.4",
+    "parcel-bundler": "^1.12.3",
+    "sass": "^1.22.12"
   }
 }
