@@ -17,13 +17,15 @@ main =
 
 type alias Model =
     { bpm : Int
+    , minBpm : Int
+    , maxBpm : Int
     , alsoKnownAs : String
     }
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( Model 60 "Largo - Lento - Adagio"
+    ( Model 60 20 260 "Largo - Lento - Adagio"
     , Cmd.none
     )
 
@@ -36,12 +38,20 @@ type Msg
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
+    let
+        clampBpm =
+            clamp model.minBpm model.maxBpm
+    in
     case msg of
         Increment ->
-            ( { model | bpm = model.bpm + 1 }, Cmd.none )
+            ( { model
+                | bpm = clampBpm (model.bpm + 1)
+              }
+            , Cmd.none
+            )
 
         Decrement ->
-            ( { model | bpm = model.bpm - 1 }, Cmd.none )
+            ( { model | bpm = clampBpm (model.bpm - 1) }, Cmd.none )
 
         SetBpm value ->
             ( { model
@@ -73,8 +83,8 @@ view model =
                 , input
                     [ type_ "range"
                     , step "1"
-                    , A.min "20"
-                    , A.max "260"
+                    , A.min (String.fromInt model.minBpm)
+                    , A.max (String.fromInt model.maxBpm)
                     , value (String.fromInt model.bpm)
                     , onInput SetBpm
                     ]
