@@ -1,10 +1,13 @@
-module Main exposing (main)
+port module Main exposing (AudioFiles, Model, Msg(..), getPlayButtonClassName, init, main, subscriptions, update, view)
 
 import BpmToTempo exposing (bpmToTempo)
 import Browser
 import Html exposing (..)
 import Html.Attributes as A exposing (..)
 import Html.Events exposing (onClick, onInput)
+import Json.Encode as E
+import Task
+import Time
 
 
 main =
@@ -54,6 +57,7 @@ type Msg
     | Decrement
     | SetBpm String
     | TogglePlay
+    | Tick Time.Posix
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -104,10 +108,25 @@ update msg model =
             , Cmd.none
             )
 
+        Tick time ->
+            ( model, tick () )
+
+
+port tick : () -> Cmd msg
+
+
+bpmToMs : Int -> Float
+bpmToMs bpm =
+    Basics.toFloat (60000 // bpm)
+
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    if model.isPlaying == False then
+        Sub.none
+
+    else
+        Time.every (bpmToMs model.bpm) Tick
 
 
 view model =
