@@ -21,6 +21,7 @@ type alias Model =
     , minBpm : Int
     , maxBpm : Int
     , tempo : String
+    , isPlaying : Bool
     }
 
 
@@ -30,7 +31,12 @@ init _ =
         initialBpm =
             60
     in
-    ( Model initialBpm 20 260 (bpmToTempo initialBpm)
+    ( Model
+        initialBpm
+        20
+        260
+        (bpmToTempo initialBpm)
+        False
     , Cmd.none
     )
 
@@ -39,6 +45,7 @@ type Msg
     = Increment
     | Decrement
     | SetBpm String
+    | TogglePlay
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -84,6 +91,11 @@ update msg model =
             , Cmd.none
             )
 
+        TogglePlay ->
+            ( { model | isPlaying = not model.isPlaying }
+            , Cmd.none
+            )
+
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
@@ -112,8 +124,17 @@ view model =
                     []
                 , button [ onClick Increment ] [ text "+" ]
                 ]
-            , button [ class "play" ]
-                [ i [ class "fas fa-play" ] []
+            , button [ class "play", onClick TogglePlay ]
+                [ i [ class (getPlayButtonClassName model.isPlaying) ] []
                 ]
             ]
         ]
+
+
+getPlayButtonClassName : Bool -> String
+getPlayButtonClassName isPlaying =
+    if isPlaying == True then
+        "fas fa-pause"
+
+    else
+        "fas fa-play"
