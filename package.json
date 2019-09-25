@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "parcel -p 8000 watch index.html"
+    "start": "parcel -p 8000 watch index.html",
+    "build": "parcel build index.html"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.11.2",
