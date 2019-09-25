@@ -26,6 +26,7 @@ type alias Model =
     , tempo : String
     , isPlaying : Bool
     , audioFiles : AudioFiles
+    , timesTicked : Int
     }
 
 
@@ -48,6 +49,7 @@ init audioFiles =
         (bpmToTempo initialBpm)
         False
         audioFiles
+        0
     , Cmd.none
     )
 
@@ -104,15 +106,23 @@ update msg model =
             )
 
         TogglePlay ->
-            ( { model | isPlaying = not model.isPlaying }
+            ( { model | isPlaying = not model.isPlaying, timesTicked = 0 }
             , Cmd.none
             )
 
         Tick time ->
-            ( model, tick () )
+            let
+                newTimesTicked =
+                    model.timesTicked + 1
+            in
+            ( { model
+                | timesTicked = newTimesTicked
+              }
+            , tick newTimesTicked
+            )
 
 
-port tick : () -> Cmd msg
+port tick : Int -> Cmd msg
 
 
 bpmToMs : Int -> Float
