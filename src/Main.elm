@@ -22,11 +22,18 @@ type alias Model =
     , maxBpm : Int
     , tempo : String
     , isPlaying : Bool
+    , audioFiles : AudioFiles
     }
 
 
-init : () -> ( Model, Cmd Msg )
-init _ =
+type alias AudioFiles =
+    { click1 : String
+    , click2 : String
+    }
+
+
+init : AudioFiles -> ( Model, Cmd Msg )
+init audioFiles =
     let
         initialBpm =
             60
@@ -37,6 +44,7 @@ init _ =
         260
         (bpmToTempo initialBpm)
         False
+        audioFiles
     , Cmd.none
     )
 
@@ -127,6 +135,10 @@ view model =
             , button [ class "play", onClick TogglePlay ]
                 [ i [ class (getPlayButtonClassName model.isPlaying) ] []
                 ]
+            , audio [ class "click1" ]
+                [ source [ src model.audioFiles.click1 ] [] ]
+            , audio [ class "click2" ]
+                [ source [ src model.audioFiles.click2 ] [] ]
             ]
         ]
 
