@@ -3,6 +3,7 @@
 $dark-bg: #282c35;
 $color-primary: #fff;
 $color-secondary: rgba(255, 255, 255, 0.9);
+$color-link: #5183f5;
 
 body {
   background-color: $dark-bg;
@@ -102,4 +103,18 @@ input {
 
 i {
   color: $color-primary;
+}
+
+footer {
+  margin-top: 20px;
+  padding: 20px 0;
+  width: 100%;
+}
+
+p {
+  font-size: 24px;
+}
+
+a {
+  color: $color-link;
 }

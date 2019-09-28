@@ -157,6 +157,12 @@ view model =
                 [ i [ class (getPlayButtonClassName model.isPlaying) ] []
                 ]
             ]
+        , footer []
+            [ p []
+                [ text "A metronome built in Elm - "
+                , a [ href "https://github.com/yazeedb/elm-metronome" ] [ text "View source code" ]
+                ]
+            ]
         ]
 
 
