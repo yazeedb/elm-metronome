@@ -1,4 +1,4 @@
-port module Main exposing (AudioFiles, Model, Msg(..), getPlayButtonClassName, init, main, subscriptions, update, view)
+port module Main exposing (Model, Msg(..), getPlayButtonClassName, init, main, subscriptions, update, view)
 
 import BpmToTempo exposing (bpmToTempo)
 import Browser
@@ -25,19 +25,12 @@ type alias Model =
     , maxBpm : Int
     , tempo : String
     , isPlaying : Bool
-    , audioFiles : AudioFiles
     , timesTicked : Int
     }
 
 
-type alias AudioFiles =
-    { click1 : String
-    , click2 : String
-    }
-
-
-init : AudioFiles -> ( Model, Cmd Msg )
-init audioFiles =
+init : () -> ( Model, Cmd Msg )
+init _ =
     let
         initialBpm =
             60
@@ -48,7 +41,6 @@ init audioFiles =
         260
         (bpmToTempo initialBpm)
         False
-        audioFiles
         0
     , Cmd.none
     )
@@ -164,8 +156,6 @@ view model =
             , button [ class "play", onClick TogglePlay ]
                 [ i [ class (getPlayButtonClassName model.isPlaying) ] []
                 ]
-            , audio [ class "click1", src model.audioFiles.click1 ] []
-            , audio [ class "click2", src model.audioFiles.click2 ] []
             ]
         ]
 
