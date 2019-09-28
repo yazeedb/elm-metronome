@@ -164,10 +164,8 @@ view model =
             , button [ class "play", onClick TogglePlay ]
                 [ i [ class (getPlayButtonClassName model.isPlaying) ] []
                 ]
-            , audio [ class "click1" ]
-                [ source [ src model.audioFiles.click1 ] [] ]
-            , audio [ class "click2" ]
-                [ source [ src model.audioFiles.click2 ] [] ]
+            , audio [ class "click1", src model.audioFiles.click1 ] []
+            , audio [ class "click2", src model.audioFiles.click2 ] []
             ]
         ]
 
