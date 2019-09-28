@@ -10,7 +10,9 @@ const app = Elm.Main.init({
   }
 });
 
-const [firstAudio, secondAudio] = document.querySelectorAll('audio');
+const [firstAudio, secondAudio] = Array.from(
+  document.querySelectorAll('audio')
+);
 
 app.ports.tick.subscribe((timesTicked) => {
   if (timesTicked % 4 === 0) {
